@@ -1,4 +1,4 @@
-# modern-ts
+# ModernTs
 Modern node.js backend template with express, swagger, typescript and others.
 
 # Sources of Inspiration
