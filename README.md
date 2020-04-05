@@ -16,7 +16,7 @@ $ cd modern-ts
 $ yarn install
 ```
 
-Once all dependencies were installed, create a `.env` file based on `.env.base`
+Once all dependencies were installed, create a `.env` file based on the `.env.base`
 provided.
 
 Finally, start the development server:
