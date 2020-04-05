@@ -4,6 +4,25 @@
   
   <p align=center>Modern node.js backend template with express, swagger, typescript and others.</p>
 </p>
+# Setup
+> We strongly recommed the use of `yarn` as package manager for this project. 
+
+After cloning this repository, do the following steps to start working:
+```
+$ cd modern-ts
+
+$ yarn install
+```
+
+Once all dependencies were installed, create a `.env` file based on `.env.base`
+provided.
+
+Finally, start the development server:
+```
+$ yarn start:dev
+```
+The application will start listening at localhost:3000. You can also use the
+`build` and `start` scripts to create and run a production ready code.
 
 # Project Structure
 ```
