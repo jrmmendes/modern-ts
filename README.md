@@ -1,5 +1,9 @@
-# ModernTs
-Modern node.js backend template with express, swagger, typescript and others.
+
+<p align=center>
+  <img src="https://raw.githubusercontent.com/jrmmendes/modern-ts/master/docs/modern-ts-logo.png" width=250>
+  
+  <p align=center>Modern node.js backend template with express, swagger, typescript and others.</p>
+</p>
 
 # Project Structure
 ```
