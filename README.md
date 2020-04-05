@@ -4,8 +4,10 @@
   
   <p align=center>Modern node.js backend template with express, swagger, typescript and others.</p>
 </p>
+
 # Setup
-> We strongly recommed the use of `yarn` as package manager for this project. 
+
+> We strongly recommed the use of `yarn` as package manager for that project. 
 
 After cloning this repository, do the following steps to start working:
 ```
