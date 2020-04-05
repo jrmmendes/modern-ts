@@ -5,7 +5,9 @@
   <p align=center>Modern node.js backend template with express, swagger, typescript and others.</p>
 </p>
 
-# Setup
+## Setup
+
+<details><summary>Development</summary>
 
 > We strongly recommed the use of `yarn` as package manager for that project. 
 
@@ -26,7 +28,9 @@ $ yarn start:dev
 The application will start listening at localhost:3000. You can also use the
 `build` and `start` scripts to create and run a production ready code.
 
-# Project Structure
+</details>
+
+## Project Structure
 ```
 ├── LICENSE
 ├── package.json
@@ -45,7 +49,7 @@ The application will start listening at localhost:3000. You can also use the
 └── README.md
 ```
 
-# Sources of Inspiration
+## Sources of Inspiration
 This code is based on several other articles and open source projects:
 - Response and Error handlers: [afteracademy](https://github.com/afteracademy/nodejs-backend-architecture-typescript);
 - Logging: [Advanced logging with Node.js](http://tostring.it/2014/06/23/advanced-logging-with-nodejs/);
