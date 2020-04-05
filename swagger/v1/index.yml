@@ -1,0 +1,371 @@
+openapi: '3.0.0'
+info:
+  title: Pilux
+  description: Pilux is a .mjs community helper to schedule presentation proposals
+  version: '1.0.0'
+servers:
+  - url: /
+    description: Local server (development)
+paths:
+  /presentations/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: UUID of the presentation
+    get:
+      summary: Get details of presentation
+      tags:
+        - Presentations
+      responses:
+        200:
+          description: Presentation details
+          content:
+            application/vnd.api+json:
+              schema:
+                properties:
+                  jsonapi:
+                    type: string
+                    example: '1.0.0'
+                  data:
+                    $ref: '#/components/schemas/presentation'
+        404:
+          description: Presentation not found
+          content:
+            application/vnd.api+json:
+              schema:
+                properties:
+                  jsonapi:
+                    type: string
+                    example: '1.0.0'
+                  errors:
+                    $ref: '#/components/schemas/errors'
+    delete:
+      security:
+        - bearerAuth: []
+      summary: Remove presentation
+      tags:
+        - Presentations
+    patch:
+      security:
+        - bearerAuth: []
+      summary: Update presentation info
+      tags:
+        - Presentations
+  /presentations:
+    post:
+      security:
+        - bearerAuth: []
+      summary: Create a new presentation
+      tags:
+        - Presentations
+    get:
+      parameters:
+        - in: query
+          name: include
+          example: 'tags,author'
+          description: Compound documents to be included on the response payload. Use comma separated style.
+          required: false
+          type: array
+          items:
+            type: string
+          explode: false
+          style: form
+      summary: List all presentations
+      tags:
+        - Presentations
+      responses:
+        200:
+          content:
+            application/vnd.api+json:
+              schema:
+                properties:
+                  jsonapi:
+                    type: string
+                    example: '1.0.0'
+                  data:
+                    type: array
+                    items:
+                      properties:
+                        id:
+                          type: string
+                          example: 'example-value-for-id'
+                        attributes:
+                          $ref: '#/components/schemas/presentation/attributes'
+                        relationships:
+                          $ref: '#/components/schemas/presentation/relationships'
+  /users/{id}:
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: UUID of the user
+    patch:
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      summary: 'Update user info'
+      description: 'This route returns a JSONAPI formated payload with the user data if it could be updated'
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              properties:
+                data:
+                  properties:
+                    name:
+                      type: string
+                      example: Junior
+                    username:
+                      type: string
+                      example: Neo
+      responses:
+        200:
+          description: User updated
+          content:
+            application/vnd.api+json:
+              schema:
+                properties:
+                  jsonapi:
+                    type: 'string'
+                    example: '1.0.0'
+                  data:
+                    $ref: '#/components/schemas/user'
+                    
+        404:
+          description: Could not find the user
+          content:
+            application/vnd.api+json:
+              schema:
+                properties:
+                  jsonapi:
+                    type: string
+                    example: '1.0.0'
+                  errors:
+                    $ref: '#/components/schemas/errors'
+    delete:
+      security:
+        - bearerAuth: []
+      tags:
+        - Users
+      summary: 'Delete user'
+      description: 'This route returns a 200 status if the user could be deleted'
+      responses:
+        200:
+          description: User deleted
+        404:
+          description: Could not find the user
+          content:
+            application/vnd.api+json:
+              schema:
+                properties:
+                  jsonapi:
+                    type: string
+                    example: '1.0.0'
+                  errors:
+                    $ref: '#/components/schemas/errors'
+    get:
+      tags:
+        - Users
+      summary: Detail a registered user
+      description: This route returns a JSONAPI formated payload with the user info on database
+      responses:
+        200:
+          description: Detail of user
+          content:
+            application/vnd.api+json:
+              schema:
+                properties:
+                  jsonapi:
+                    type: string
+                    example: '1.0.0'
+                  data:
+                    $ref: '#/components/schemas/user'
+        400:
+          description: Could not find any user
+          content:
+            application/vnd.api+json:
+              schema:
+                properties:
+                  jsonapi:
+                    type: string
+                    example: '1.0.0'
+                  errors:
+                    $ref: '#/components/schemas/errors'
+  /users:
+    post:
+      tags:
+        - Users
+      summary: 'Register a new user'
+      description: 'This route returns a JSONAPI formated payload with the user data if it could be created'
+      requestBody:
+        required: true
+        content:
+          application/vnd.api+json:
+            schema:
+              properties:
+                data:
+                  properties:
+                    name:
+                      type: string
+                      example: Anderson
+                    username:
+                      type: string
+                      example: Neo
+                    email:
+                      type: string
+                      example: neo@matrix.com
+                    password_1:
+                      type: string
+                      example: myc0lpas5
+                    password_2:
+                      type: string
+                      example: myc0lpas5
+
+      responses:
+        201:
+          description: User created
+          content:
+            application/vnd.api+json:
+              schema:
+                properties:
+                  jsonapi:
+                    type: 'string'
+                    example: '1.0.0'
+                  data:
+                    $ref: '#/components/schemas/user'
+                  
+        500:
+          description: Could not create user
+          content:
+            application/vnd.api+json:
+              schema:
+                properties:
+                  jsonapi:
+                    type: string
+                    example: '1.0.0'
+                  errors:
+                    $ref: '#/components/schemas/errors'
+    get:
+      tags:
+        - Users
+      summary: List all registered users
+      description: This route returns a JSONAPI formated payload with all users on database
+      responses:
+        200:
+          description: List of users
+          content:
+            application/vnd.api+json:
+              schema:
+                properties:
+                  jsonapi:
+                    type: string
+                    example: '1.0.0'
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/user'
+                      example:
+                        - id: 
+                          name: 'Trinity'
+                          username: 'neolady'
+                          email: 'trinity@matrix.com'
+        400:
+          description: Could not find any user
+          content:
+            application/vnd.api+json:
+              schema:
+                properties:
+                  jsonapi:
+                    type: string
+                    example: '1.0.0'
+                  errors:
+                    $ref: '#/components/schemas/errors'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT 
+  schemas:
+    errors:
+      type: array
+      items:
+        type: object
+        properties:
+          status:
+            type: string
+            example: '400'
+          title:
+            type: string
+            example: 'Not found'
+          detail:
+            type: string
+            example: 'Detail message of the error'
+    user:
+      properties:
+        is-active:
+          type: boolean
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+      example:
+        name: Anderson
+        is-active: true
+        username: Neo
+        email: neo@matrix.com
+    presentation:
+      attributes:
+        properties:
+          title:
+            type: string
+            example: 'Novidades no React: como usar hooks na prática'
+          creator_id:
+            example: 'eadd4cea-9b93-4c72-a9f8-f5902470177c'
+            type: string
+          repository_url:
+            example: 'https://github.com/kbmelo/hooks-in-practice'
+            type: string
+          description:
+            example: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            type: string
+          is_finished:
+            example: true
+            type: boolean
+          is_scheduled:
+            example: false
+            type: boolean
+      relationships:
+        properties:
+          author:
+            properties:
+              data:
+                properties:
+                  type:
+                    type: string
+                    example: 'author'
+                  id:
+                    type: string
+                    example: 'dhdhsa-012312-62613'
+          tags:
+            properties:
+              data:
+                type: array
+                items:
+                  properties:
+                    type:
+                      type: string
+                      example: 'tags'
+                    id:
+                      type: string
+                      example: 'aad34-123123-e1qwe'

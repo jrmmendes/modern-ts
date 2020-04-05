@@ -1,9 +1,14 @@
-import express, { Request, Response, NextFunction } from 'express';
+import path from 'path';
+import YAML from 'yamljs';
+
 import { Logger } from 'winston';
 import morgan from 'morgan';
+import swaggerUi, { JsonObject } from 'swagger-ui-express';
+import express, { Request, Response, NextFunction } from 'express';
 
 import logger from './core/logger';
 import { ApiError, InternalError, NotFoundError } from './core/api-error';
+import * as settings from './settings';
 
 import test from './routes/test';
 
@@ -16,9 +21,27 @@ export default class ApplicationController {
     this.logger = logger;
 
     this.middlewares();
+    if (settings.env !== 'test') this.swagger({ version: 1 });
     this.routes();
     this.catchNotFound();
     this.handleErrors();
+  }
+
+  private swagger({ version }: { version: number }) {
+    this.logger.info(`Creating swagger page for API v${version}`);
+    const swaggerDocument: JsonObject = YAML.load(
+      path.join(
+        settings.baseDir,
+        'swagger',
+        `v${version}`,
+        'index.yml',
+      ));
+
+    this.app.use(
+      `/v${version}/docs`,
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerDocument),
+    );
   }
 
   private catchNotFound() {
@@ -26,6 +49,7 @@ export default class ApplicationController {
   }
 
   private middlewares() {
+    this.logger.info('Initializing middlewares...');
     this.app.use(morgan('combined', {
       stream: {
         write: (meta: any) => {
@@ -36,6 +60,7 @@ export default class ApplicationController {
   }
 
   private routes() {
+    this.logger.info('Initializing API routes...');
     this.app.use(test);
   }
   
@@ -46,7 +71,7 @@ export default class ApplicationController {
   }
 
   private handleErrors() {
-    this.app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    this.app.use((err: Error, req: Request, res: Response) => {
       if (err instanceof ApiError) {
         ApiError.handle(err, res);
       } else {
@@ -58,5 +83,4 @@ export default class ApplicationController {
       }
     });
   }
-
 }
