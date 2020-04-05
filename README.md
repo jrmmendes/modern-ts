@@ -48,6 +48,19 @@ The application will start listening at localhost:3000. You can also use the
 ├── tsconfig.json
 └── README.md
 ```
+## Tecnologies
+- ts-jest
+- Typescript
+- Express
+
+## Roadmap
+### v1.0: 
+- Documentation with Swagger
+- Validation with hapijs/joi
+
+### v1.1: 
+- Docker implementation
+- Production build system with dokku/heroku
 
 ## Sources of Inspiration
 This code is based on several other articles and open source projects:
