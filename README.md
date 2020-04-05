@@ -2,6 +2,12 @@
 <p align=center>
   <img src="https://raw.githubusercontent.com/jrmmendes/modern-ts/master/docs/modern-ts-logo.png" width=250>
   
+  <p align=center>
+    <a href="https://codeclimate.com/github/jrmmendes/modern-ts/maintainability">
+      <img src="https://api.codeclimate.com/v1/badges/20fb0ac60e374a975da4/maintainability" />
+    </a>
+  </p>
+  
   <p align=center>Modern node.js backend template with express, swagger, typescript and others.</p>
 </p>
 
