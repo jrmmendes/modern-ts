@@ -76,7 +76,7 @@ export default class ApplicationController {
         ApiError.handle(err, res);
       } else {
         if (process.env.NODE_ENV === 'development') {
-          this.logger.error(err);
+          this.logger.error('Internal error');
           return res.status(500).send(err.message);
         }
         ApiError.handle(new InternalError(), res);
