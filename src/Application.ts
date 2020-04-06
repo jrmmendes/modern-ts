@@ -71,7 +71,7 @@ export default class ApplicationController {
   }
 
   private handleErrors() {
-    this.app.use((err: Error, req: Request, res: Response) => {
+    this.app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
       if (err instanceof ApiError) {
         ApiError.handle(err, res);
       } else {
